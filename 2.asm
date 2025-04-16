@@ -7,7 +7,7 @@ MOV B, A       ; B = 0
 MOV D, A       ; D = 0
 MOV C, A       ; C = 0
 
-LXI H, 0x0015
+LXI H, 0x0020
 MOV B, M       ; B = x1 = 0x01
 
 INX H
@@ -31,6 +31,6 @@ XRA M          ; A = 0xFE
 ANI 0x01       ; Должно быть 0x00
 MOV A, A       ; Фиктивная операция для проверки флагов
 
-LXI H, 0x0019
+LXI H, 0x0024
 MOV M, A       ; Гарантированно 0x00
 HLT
