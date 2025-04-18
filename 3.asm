@@ -1,16 +1,3 @@
-ORG 0x0015       ; Тестовые значения
-DB 0x01      
-DB 0x02     
-DB 0x03      
-DB 0x04     
-DB 0x05       
-DB 0x06     
-DB 0x07   
-DB 0x08  
-DB 0x09   
-DB 0x10        
-
-
 LXI H, 0x0015	 
 MVI D, 10       
 SUB A      
@@ -23,4 +10,3 @@ JNZ LOOP         ; Если D != 0, повторяем цикл
 
 MOV M, A      
 HLT      
-
