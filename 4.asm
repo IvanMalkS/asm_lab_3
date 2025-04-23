@@ -1,36 +1,36 @@
-LXI H, 0x002A  ; Указатель на начало массива
-MVI B, 1       ; Счётчик позиций (начинается с 1)
-MVI C, 0       ; Сумма нечётных позиций (1, 3, 5...)
-MVI D, 0       ; Сумма чётных позиций (2, 4, 6...)
+LXI H, 0x002A 
+MVI B, 1
+MVI A, 0
+MOV C, A
+MOV D, A
 
 SUM_LOOP:
-    MOV A, B    ; Проверяем, достигли ли конца массива (B=11)
-    CPI 11
-    JZ END
-
-    MOV E, M    ; Загружаем текущий элемент в E
-    MOV A, B    ; Проверяем чётность позиции (через Parity Flag)
-    ORA A       ; Устанавливаем флаги, включая Parity
-    JPE EVEN    ; Если чётная, прыгаем в EVEN
+    MOV     A, B          
+    CPI     11 
+    JZ      END
+    MOV     E, M      
+    MOV     A, B        
+    ORA     A      
+  JPE EVEN
 
 ODD:
-    MOV A, C    ; Нечётная позиция: добавляем к C
-    ADD E
-    MOV C, A
-    JMP NEXT
+  MOV A, C
+  ADD E
+  MOV C, A
+  JMP NEXT
 
 EVEN:
-    MOV A, D    ; Чётная позиция: добавляем к D
-    ADD E
-    MOV D, A
+  MOV A, D
+  ADD E
+  MOV D, A
 
 NEXT:
-    INX H       ; Переходим к следующему элементу
-    INR B       ; Увеличиваем счётчик
-    JMP SUM_LOOP
+  INX H
+  INR B
+  JMP SUM_LOOP
 
 END:
-    MOV M, D    ; Сохраняем сумму чётных позиций
-    INX H
-    MOV M, C    ; Сохраняем сумму нечётных позиций
-    HLT
+  MOV M, D
+  INX H
+  MOV M, C
+  HLT
