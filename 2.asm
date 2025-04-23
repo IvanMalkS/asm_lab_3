@@ -1,25 +1,24 @@
-LXI H, 0x001A   ; Point HL to the first input byte (x1)
-MOV B, M       ; B = x1
+LXI H, 0x001A   
+MOV B, M      
 
-INX H          ; Point HL to the second input byte (x2)
-MOV A, M       ; A = x2
-CMA            ; A = NOT x2
-MOV D, A       ; D = NOT x2  (Need to save NOT x2 temporarily)
+INX H          
+MOV A, M      
+CMA            
+MOV D, A       
 
-INX H          ; Point HL to the third input byte (x3)
-MOV A, M       ; A = x3
-CMA            ; A = NOT x3
-ANA B          ; A = (NOT x3) AND x1 (Result C from original code is now in A)
+INX H          
+MOV A, M       
+CMA            
+ANA B          
 
-XRA D          ; A = A XOR D = ((NOT x3) AND x1) XOR (NOT x2)
-               ; This is equivalent to D XOR C from original due to XOR commutativity
+XRA D        
 
-INX H          ; Point HL to the fourth input byte (x4)
-XRA M          ; A = A XOR x4 = ((NOT x3) AND x1) XOR (NOT x2) XOR x4
+INX H         
+XRA M          
 
-ANI 0x01       ; Keep only the least significant bit
+ANI 0x01      
 
-; Store the result
-LXI H, 0x001E   ; Point HL to the output location
-MOV M, A       ; Store the final LSB result
-HLT            ; Halt
+
+LXI H, 0x001E  
+MOV M, A       
+HLT          
