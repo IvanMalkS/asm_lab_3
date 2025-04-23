@@ -1,36 +1,35 @@
-LXI H, 0x002A 
-MVI B, 1
-MVI A, 0
-MOV C, A
-MOV D, A
+LXI H, 0x002A  ; Указатель на начало массива
+MVI B, 1       ; Счётчик позиций (начинается с 1)
+MVI C, 0       ; Сумма нечётных позиций
+MVI D, 0       ; Сумма чётных позиций
 
 SUM_LOOP:
-    MOV     A, B          
-    CPI     11 
-    JZ      END
-    MOV     E, M      
-    MOV     A, B        
-    ORA     A      
-  JPE EVEN
-
-ODD:
-  MOV A, C
-  ADD E
-  MOV C, A
-  JMP NEXT
+    MOV A, M    ; Загружаем текущий элемент в A
+    MOV E, B    ; Копируем номер позиции в E для проверки чётности
+    MOV A, E    ; Переносим в A
+    RAR         ; Сдвигаем вправо → младший бит попадает в Carry
+    JC ODD      ; Если Carry=1 (нечётное), прыгаем в ODD
 
 EVEN:
-  MOV A, D
-  ADD E
-  MOV D, A
+    MOV A, D    ; Чётная позиция: добавляем к сумме D
+    ADD M
+    MOV D, A
+    JMP NEXT    ; Переходим к следующему элементу
+
+ODD:
+    MOV A, C    ; Нечётная позиция: добавляем к сумме C
+    ADD M
+    MOV C, A
 
 NEXT:
-  INX H
-  INR B
-  JMP SUM_LOOP
+    INX H       ; Переходим к следующему элементу массива
+    INR B       ; Увеличиваем счётчик позиций
+    MOV A, B
+    CPI 11      ; Проверяем, не достигли ли конца (B=11)
+    JNZ SUM_LOOP ; Если нет, продолжаем цикл
 
 END:
-  MOV M, D
-  INX H
-  MOV M, C
-  HLT
+    MOV M, D    ; Сохраняем сумму чётных позиций
+    INX H
+    MOV M, C    ; Сохраняем сумму нечётных позиций
+    HLT
